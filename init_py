@@ -1,0 +1,27 @@
+""" Diplomacy Research """
+# Setting up root logger
+import os
+import logging
+import sys
+
+# Adding path to proto/ dir
+sys.path.append(os.path.join(os.path.dirname(__file__), 'proto'))
+
+LOGGING_LEVEL = {'CRITICAL': logging.CRITICAL,
+                 'ERROR': logging.ERROR,
+                 'WARNING': logging.WARNING,
+                 'INFO': logging.INFO,
+                 'DEBUG': logging.DEBUG}.get(os.environ.get('DIPLOMACY_LOGGING', 'INFO'), logging.INFO)
+
+# Defining root logger
+ROOT_LOGGER = logging.getLogger('diplomacy_research')
+ROOT_LOGGER.setLevel(LOGGING_LEVEL)
+ROOT_LOGGER.propagate = False
+
+# Adding output to stdout by default
+STREAM_HANDLER = logging.StreamHandler(sys.stdout)
+STREAM_HANDLER.setLevel(logging.DEBUG)
+FORMATTER = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+STREAM_HANDLER.setFormatter(FORMATTER)
+ROOT_LOGGER.addHandler(STREAM_HANDLER)
+
